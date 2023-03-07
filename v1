@@ -1,0 +1,25 @@
+# First, prompt the user for the name of the user they want to modify
+$Username = Read-Host "Enter the username of the user you want to modify"
+
+# Next, prompt the user for the note they want to add
+$Note = Read-Host "Enter the note you want to add to the user's telephone field"
+
+# Retrieve the user object from Active Directory
+$User = Get-ADUser -Identity $Username
+
+# Check if the user object was found
+if ($User) {
+    # If the user object was found, add the note to the telephone field at the top
+   $NewNote = "@{info='New info for the notes field'}"
+    #Set-ADUser -Identity $Username -replace $NewNote
+    
+   Set-ADUser $Username -Replace @{info=$Note}
+    Write-Host "Note added to user's telephone field at the top."
+} else {
+
+    # If the user object was not found, display an error message
+    Write-Host "Error: User not found."
+}
+
+
+#Set-ADUser username -Replace @{info='New info for the notes field'}
